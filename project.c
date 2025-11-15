@@ -7,11 +7,68 @@ typedef struct{
     int stock;
 }med;
 
+struct patient
+{
+    int patient_id;
+    char name[100];
+    char address[300];
+    long long int phone_no;
+};
 void patientMenu()
 {
+    int choice,count=0,store;
+    long long int temp;
+    static int imp=0;
     printf("\n--- Patient Management ---\n");
-    // you will add code here later
-}
+    printf("1.Add new patient details\n2.Edit patient detials\n3.Delete Patient Detials\nEnter your choice:");
+    scanf("%d",&choice);
+    struct patient p[1000];
+    switch(choice)
+        {
+          case 1:
+          {FILE *fp=fopen("patient.txt","a");
+          printf("Enter patient ID:");
+          scanf("%d",&p[imp].patient_id);
+          printf("Enter patient NAME:");
+          getchar();
+          fgets(p[imp].name,100,stdin);
+          printf("Enter Address:");
+          fgets(p[imp].address,300,stdin);
+          temp=p[imp].phone_no;
+          while (count!=10)
+            {
+                printf("Enter phone number: ");
+                scanf("%lld",&p[imp].phone_no);
+                temp=p[imp].phone_no;
+                while(temp!=0)
+                {
+                    temp/=10;
+                    count++;
+                }
+                if (count!=10)
+                {
+                    printf("Invalid phone number!Must be 10 digits.\n");
+                }
+            }
+          if(fp==NULL)
+          {
+              printf("Error opening file:(");
+          }
+          fprintf(fp,"%d %s %s %lld",p[imp].patient_id,p[imp].name,p[imp].address,p[imp].phone_no);
+          fclose(fp);
+          printf("\nPatient details saved successfully:)\n");
+          imp++;
+          break;
+          }
+          case 2:
+          {
+              FILE *fp=fopen("patient.txt","a");
+              printf("Enter patient ID:");
+              scanf("%d",&store);
+
+          }
+        }
+    }
 
 void doctorMenu()
 {
@@ -110,6 +167,7 @@ int main()
 
     return 0;
 }
+
 
 
 
