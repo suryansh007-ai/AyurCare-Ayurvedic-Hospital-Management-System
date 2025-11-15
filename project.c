@@ -1,12 +1,48 @@
 #include <stdio.h>
 #include <stdlib.h>
+typedef struct{
+    int id;
+    char name[50];
+    int exp;
+    int stock;
+}med;
 
-void patientMenu();
-void doctorMenu();
-void inventoryMenu();
-void therapyMenu();
-void billingMenu();
-void reportsMenu();
+void patientMenu()
+{
+    printf("\n--- Patient Management ---\n");
+    // you will add code here later
+}
+
+void doctorMenu()
+{
+    printf("\n--- Doctor & Therapist Management ---\n");
+    // you will add code here later
+}
+
+void inventoryMenu()
+{
+    printf("\n--- Medicine Inventory ---\n");
+    // you will add code here later
+}
+
+void therapyMenu()
+{
+    printf("\n--- Panchkarma Therapy Schedule ---\n");
+    // you will add code here later
+}
+
+void billingMenu()
+{
+    printf("\n--- Billing Section ---\n");
+    int total;
+    
+}
+
+void reportsMenu()
+{
+    printf("\n--- Reports Section ---\n");
+    // you will add code here later
+}
 
 int main()
 {
@@ -65,39 +101,5 @@ int main()
     return 0;
 }
 
-void patientMenu()
-{
-    printf("\n--- Patient Management ---\n");
-    // you will add code here later
-}
 
-void doctorMenu()
-{
-    printf("\n--- Doctor & Therapist Management ---\n");
-    // you will add code here later
-}
-
-void inventoryMenu()
-{
-    printf("\n--- Medicine Inventory ---\n");
-    // you will add code here later
-}
-
-void therapyMenu()
-{
-    printf("\n--- Panchkarma Therapy Schedule ---\n");
-    // you will add code here later
-}
-
-void billingMenu()
-{
-    printf("\n--- Billing Section ---\n");
-    // you will add code here later
-}
-
-void reportsMenu()
-{
-    printf("\n--- Reports Section ---\n");
-    // you will add code here later
-}
 
