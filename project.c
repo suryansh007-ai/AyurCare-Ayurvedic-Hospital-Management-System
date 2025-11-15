@@ -21,8 +21,18 @@ void doctorMenu()
 
 void inventoryMenu()
 {
-    printf("\n--- Medicine Inventory ---\n");
-    // you will add code here later
+     printf("\n--- Medicine Inventory ---\n");
+    printf("1. Add item\n2. View all\n3. Delete item\n4. Back to main menu\n");
+    int ch;
+    printf("Enter you Choice: ");
+    scanf("%d",&ch);
+    switch(ch){
+        case 1: addmed(); break;
+        case 2: viewmed(); break;
+        case 3: delmed(); break;
+        case 4: return;
+        default: printf("Invalid choice.\n");
+    }
 }
 
 void therapyMenu()
@@ -100,6 +110,7 @@ int main()
 
     return 0;
 }
+
 
 
 
