@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include<string.h>
 typedef struct{
-    int id;
     char name[50];
-    int exp;
+    int expr;
     int stock;
 }med;
+
+//SURYANSH SIROHI
 struct patient
 {
     int patient_id;
@@ -13,7 +15,7 @@ struct patient
     char address[300];
     long long int phone_no;
 };
-void deletePatient()
+void deletePatient() //SURYANSH SIROHI
 {
     int id;
     printf("Enter patient ID to delete:");
@@ -49,7 +51,7 @@ void deletePatient()
         printf("\nPatient ID %d deleted successfully.\n",id);
     }
 }
-void search()
+void search() //SURYANSH SIROHI
 {
     int n;
     printf("You want to search by?\n1.Patient ID\n2.Phone Number\nEnter Choice:");
@@ -114,7 +116,7 @@ void search()
     fclose(fp);
 }
 }
-void patientMenu()
+void patientMenu() //SURYANSH SIROHI
 {
     int choice,count=0,store;
     long long int temp;
@@ -230,13 +232,95 @@ void patientMenu()
             {printf("Wrong Choice");
         break;}}
 }
-void doctorMenu()
+void doctorMenu() //SURYANSH SIROHI
 {
     printf("\n--- Doctor & Therapist Management ---\n");
     // you will add code here later
 }
 
-void inventoryMenu()
+void addmed(){  // AVI NEGI
+    med m;
+    FILE *f=fopen("medicine.txt","a");
+    if (f==NULL){
+        printf("Error opening file!\n");
+    }
+    printf("Enter Name of Medicine: ");
+    scanf(" %[^\n]",&m.name);
+    printf("Enter Expiration Date(MM YYYY): ");
+    scanf("%d",&m.expr);
+    printf("Enter Amount: ");
+    scanf("%d",&m.stock);
+    fprintf(f, "%s|%d|%d\n", m.name, m.expr, m.stock);
+    fclose(f);
+    printf("Medicine added successfully with Name %s\n", m.name);
+}
+void viewmed(){  // AVI NEGI
+    FILE* f=fopen("medicine.txt","r");
+    if(f==NULL){
+        printf("No Medicine Found\n");
+        return;
+    }
+    med m;
+    int pos=0;
+    printf("-------MEDICINES-------\n");
+    while(fscanf(f," %50[^|]|%d|%d\n",&m.name,&m.expr,&m.stock)==3){
+        printf("%d) Name: %s | Expiration: %d | Stock: %d\n",++pos,m.name,m.expr,m.stock);
+    }
+    if(pos==0) printf("Inventory Is Empty\n");
+    fclose(f);
+}
+void delmed(){     // AVI NEGI
+    char aim[50];
+    int amt;
+    printf("Enter the name of medicine: ");
+    scanf(" %[^\n]",aim);
+    printf("Enter Amount:");
+    scanf("%d",&amt);
+    FILE* f=fopen("medicine.txt","r");
+    FILE* temp=fopen("temp_med.txt","w");
+    if (f==NULL||temp==NULL)
+    {
+        printf("Error opening file!\n");
+        if (f) fclose(f);
+        if (temp) fclose(temp);
+        if (temp) remove("temp_med.txt");
+        return;
+    }
+    med m;
+    int found=0;
+     while(fscanf(f," %49[^|]|%d|%d\n",m.name,&m.expr,&m.stock)==3){
+        if(strcmp(m.name,aim)==0&&found==0){
+            found=1;
+            if(amt>m.stock){
+                printf("Only %d units in stock",m.stock);
+                fclose(f);
+                fclose(temp);
+                remove("temp_med.txt");
+                return;
+            }
+            m.stock-=amt;
+            printf("Updated Stock of %s: %d",m.name,m.stock);
+
+            if(m.stock>0) fprintf(temp,"%s|%d|%d\n",m.name,m.expr,m.stock);
+            continue;
+        }
+    
+        fprintf(temp,"%s|%d|%d\n",m.name,m.expr,m.stock);
+    }
+    fclose(f);
+    fclose(temp);
+
+    if(found==0){
+        printf("Medicine Not Found!\n");
+        remove("temp_med.txt");        
+    } else{
+        remove("medicine.txt");
+        rename("temp_med.txt","medicine.txt");
+        printf("Amount Deducted Successfully");
+    }
+}
+
+void inventoryMenu() //AVI NEGI
 {
      printf("\n--- Medicine Inventory ---\n");
     printf("1. Add item\n2. View all\n3. Delete item\n4. Back to main menu\n");
@@ -251,6 +335,7 @@ void inventoryMenu()
         default: printf("Invalid choice.\n");
     }
 }
+
 
 void therapyMenu()
 {
@@ -327,6 +412,7 @@ int main()
 
     return 0;
 }
+
 
 
 
