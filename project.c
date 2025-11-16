@@ -6,8 +6,6 @@ typedef struct{
     int expr;
     int stock;
 }med;
-
-//SURYANSH SIROHI
 struct patient
 {
     int patient_id;
@@ -15,7 +13,165 @@ struct patient
     char address[300];
     long long int phone_no;
 };
-void deletePatient() //SURYANSH SIROHI
+struct doctor
+{
+    int doc_id;
+    char doc_name[100];
+    char spec[200];
+    long long int phone;
+    float fee;
+    char timing[100];
+};
+void adddoctor()
+{
+    FILE *fp=fopen("doctor.txt","a");
+    struct doctor doc;
+    static int id=0;
+    int count=0;
+    long long temp;
+    if(fp==NULL)
+    {
+        printf("Error in opeining the file.");
+    }
+    doc.doc_id=id;
+    printf("Enter Therapist/Doctor's Name:");
+    getchar();
+    fgets(doc.doc_name,100,stdin);
+    printf("Enter Therapist/Doctor's Specilization:");
+    fgets(doc.spec,200,stdin);
+    while (17)
+    {
+        printf("Enter Therapist/Doctor's Phone Number:");
+        scanf("%lld",&doc.phone);
+        temp=doc.phone;
+        while(temp!=0)
+        {
+            temp/=10;
+            count++;
+        }
+        if (count==10)
+            break;
+        else{
+            printf("Invalid Phone number\n");
+        }
+    }
+    printf("Enter Consultation Fee:");
+    scanf("%f",&doc.fee);
+    printf("Enter available timings:");
+    getchar();
+    fgets(doc.timing,50,stdin);
+    fprintf(fp,"%d|%s|%s|%lld|%f|%s\n",doc.doc_id,doc.doc_name,doc.spec,doc.phone,doc.fee,doc.timing);
+    fclose(fp);
+    printf("\n%s's details have been successfully saved\nHis ASSIGNED ID is %d",doc.doc_name,doc.doc_id);
+    id++;
+}
+void editdoctor()
+{
+    struct doctor doc;
+    int id,flag=0,store;
+    printf("Enter doctor/therapist ID whose details you wish to change?");
+    scanf("%d",&id);
+    FILE *fp=fopen("doctor.txt","r");
+    FILE *fpw=fopen("temp1.txt","w");
+    if(fp==NULL||fpw==NULL)
+    {
+        printf("Error in opening file,it does not exist\n");
+    }
+    while (fscanf(fp,"%d|%99[^|]|%99[^|]|%lld|%f|%49[^\n]\n",&doc.doc_id,&doc.doc_name,&doc.spec,&doc.phone,&doc.fee,&doc.timing)==6)
+            {
+                if (doc.doc_id==id)
+                {
+                    flag=1;
+                    printf("\nCurrent Detials:\n");
+                    printf("Doctor/Therapist ID:%d\nName:%s\nSpecilization:%s\nPhone:%lld\nConsultation FEE:%f\nTimings:%s\n",doc.doc_id,doc.doc_name,doc.spec,doc.phone,doc.fee,doc.timing);
+                    printf("1.Change Doctor/Therapist name\n2.Change Specilization\n3.Change Doctor/Therapist's Phone Number\n4.Change consultation fee amount\n5.Change Timings\nEnter your choice:");
+                    scanf("%d",&store);
+                    switch(store)
+                      {
+                      case 1:
+                       {
+                        printf("Enter NEW Name:");
+                        getchar();
+                        fgets(doc.doc_name,100,stdin);
+                        break;}
+                      case 2:
+                        {printf("Enter NEW Specilization:");
+                        getchar();
+                        fgets(doc.spec,300,stdin);
+                        break;}
+                      case 3:
+                        {printf("Enter new phone number:");
+                        scanf("%lld",&doc.phone);
+                        break;}
+                      case 4:
+                        {
+                            printf("Enter NEW Consultation FEE:");
+                            scanf("%f",&doc.fee);
+                            break;
+                        }
+                      case 5:
+                        {
+                            printf("Enter NEW Timings:");
+                            fgets(doc.timing,100,stdin);
+                            break;
+                        }
+                      default:
+                        {printf("Wrong Choice");
+                        break;}
+                      }
+                  }
+                  fprintf(fpw,"%d|%s|%s|%lld|%f|%s\n",doc.doc_id,doc.doc_name,doc.spec,doc.phone,doc.fee,doc.timing);
+              }
+              fclose(fp);
+              fclose(fpw);
+              if(!flag)
+              {
+                  printf("\nDoctor/Therapist ID does not exist\n");
+                  remove("temp.txt");
+              }
+              else{
+                remove("doctor.txt");
+                rename("temp1.txt","doctor.txt");
+                printf("\nDetails Updated Successfully\n");
+              }
+}
+void deletedoctor()
+{
+    int id;
+    printf("Enter Doctor/Therapist ID to delete:");
+    scanf("%d",&id);
+    FILE *fp=fopen("doctor.txt","r");
+    FILE *temp=fopen("temp1.txt","w");
+    if (fp==NULL||temp==NULL)
+    {
+        printf("Error opening file!\n");
+    }
+    struct doctor doc;
+    int found=0;
+    while(fscanf(fp,"%d|%99[^|]|%99[^|]|%lld|%f|%49[^\n]\n",&doc.doc_id,&doc.doc_name,&doc.spec,&doc.phone,&doc.fee,&doc.timing)==6)
+    {
+        if (doc.doc_id==id)
+        {
+            found=1;
+            continue;
+        }
+        fprintf(temp,"%d|%s|%s|%lld|%f|%s\n",doc.doc_id,doc.doc_name,doc.spec,doc.phone,doc.fee,doc.timing);
+    }
+    fclose(fp);
+    fclose(temp);
+    if(!found)
+    {
+        printf("\nDoctor/Therapist ID %d not found.\n",id);
+        remove("temp1.txt");
+    }
+    else
+    {
+        remove("doctor.txt");
+        rename("temp1.txt", "doctor.txt");
+        printf("\nDoctor/Therapist ID %d deleted successfully.\n",id);
+    }
+}
+void deletePatient()
 {
     int id;
     printf("Enter patient ID to delete:");
@@ -51,7 +207,82 @@ void deletePatient() //SURYANSH SIROHI
         printf("\nPatient ID %d deleted successfully.\n",id);
     }
 }
-void search() //SURYANSH SIROHI
+void searchdoc()
+{
+    int n;
+    int found=0;
+    FILE *fp=fopen("doctor.txt","r");
+    if (fp==NULL)
+    {
+        printf("Error opening file!\n");
+    }
+            struct doctor doc;
+            int id;
+            printf("Enter Doctor/Therapist's ID:");
+            scanf("%d",&id);
+            while(fscanf(fp,"%d|%99[^|]|%99[^|]|%lld|%f|%49[^\n]\n",&doc.doc_id,&doc.doc_name,&doc.spec,&doc.phone,&doc.fee,&doc.timing)==6)
+            {
+              if (doc.doc_id==id)
+              {
+                  found=1;
+                  printf("-----Doctor/Therapist Found-----");
+                  printf("\n%d",doc.doc_id);
+                  printf("\n%s",doc.doc_name);
+                  printf("\n%s",doc.spec);
+                  printf("\n%lld",doc.phone);
+                  printf("\n%f",doc.fee);
+                  printf("\n%s",doc.timing);
+                  break;
+              }
+            }
+    if (found==0)
+    printf("Record not found");
+    fclose(fp);
+}
+void trim(char *s)
+{
+    int len=strlen(s);
+    while(len>0&&(s[len-1]=='\n'||s[len-1]=='\r'||s[len-1]==' '))
+    {
+        s[len-1]=0;
+        len--;
+    }
+}
+void displaydocs()
+{
+    struct doctor doc;
+    char searchSpec[100];
+    int found=0;
+    FILE *fp=fopen("doctor.txt","r");
+    if (!fp)
+    {
+        printf("Error opening doctor file!\n");
+        return;
+    }
+    getchar();
+    printf("Enter specialization to search:");
+    fgets(searchSpec,100,stdin);
+    trim(searchSpec);
+    printf("\n---Doctors/Therapists with Specialization:%s---\n",searchSpec);
+    while(fscanf(fp,"%d|%99[^|]|%99[^|]|%lld|%f|%49[^\n]\n",&doc.doc_id,doc.doc_name,doc.spec,&doc.phone,&doc.fee,doc.timing)==6)
+    {
+        doc.spec[strcspn(doc.spec,"\r")]=0;
+        doc.timing[strcspn(doc.timing,"\r")]=0;
+        searchSpec[strcspn(searchSpec, "\r")]=0;
+        if (strcasecmp(doc.spec,searchSpec)==0)
+        {
+            found = 1;
+            printf("Doctor/Therapist ID:%d|Doctor's NAME:%s|Therapist's Specilization:%s|Doctor/Therapist's Phone No.:%lld|Consultation Fee:%f|Timings:%s\n",doc.doc_id,doc.doc_name,doc.spec,doc.phone,doc.fee,doc.timing);
+        }
+    }
+    fclose(fp);
+    if(!found)
+    {
+        printf("\nNo doctor/therapist found for specialization:%s\n",searchSpec);
+    }
+    printf("\n\n");
+}
+void search()
 {
     int n;
     printf("You want to search by?\n1.Patient ID\n2.Phone Number\nEnter Choice:");
@@ -116,7 +347,7 @@ void search() //SURYANSH SIROHI
     fclose(fp);
 }
 }
-void patientMenu() //SURYANSH SIROHI
+void patientMenu()
 {
     int choice,count=0,store;
     long long int temp;
@@ -229,13 +460,46 @@ void patientMenu() //SURYANSH SIROHI
             search();
         }
         default:
-            {printf("Wrong Choice");
+        {printf("Wrong Choice");
         break;}}
 }
-void doctorMenu() //SURYANSH SIROHI
-{
-    printf("\n--- Doctor & Therapist Management ---\n");
-    // you will add code here later
+void doctorMenu()
+{   int n;
+    printf("\n---Doctor and Therapist Management---\n");
+    printf("1.Add Doctor/Therapist\n2.Edit Doctor's/Therapist's Details\n3.Delete Doctor's/Therapist's details\n4.Search Doctor/Therapist\n5.Display list of doctors/Therapists\n6.Assign Doctor/Therapist to patient\n7.Doctor Availability/Scheduling");
+    printf("\nEnter your choice:");
+    scanf("%d",&n);
+    switch (n)
+    {
+    case 1:
+        {
+          adddoctor();
+        }
+    case 2:
+        {
+          editdoctor();
+        }
+    case 3:
+    {
+        deletedoctor();
+    }
+    case 4:
+        {
+           searchdoc();
+        }
+    case 5:
+        {
+           displaydocs();
+        }
+    case 6:
+        {
+            //assign();
+        }
+    case 7:
+        {
+           // availability();
+        }
+    }
 }
 
 void addmed(){  // AVI NEGI
@@ -412,6 +676,7 @@ int main()
 
     return 0;
 }
+
 
 
 
