@@ -226,10 +226,9 @@ void patientMenu()
         {
             search();
         }
-        }
         default:
-        printf("Wrong Choice");
-        break;
+            {printf("Wrong Choice");
+        break;}}
 }
 void doctorMenu()
 {
@@ -328,6 +327,7 @@ int main()
 
     return 0;
 }
+
 
 
 
