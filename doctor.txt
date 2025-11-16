@@ -1,0 +1,49 @@
+0|Dr. Anuj Sharma|Ayurveda General Physician|9876543210|500.000000|10 AM - 2 PM
+1|Dr. Meera Gupta|Panchakarma Specialist|9123456789|600.000000|3 PM - 7 PM
+2|Dr. Raghav Sharma|Naturopathy Consultant|9988776655|450.000000|11 AM - 4 PM
+3|Dr. Kriti Anand|Ayurvedic Dietician|9012345678|400.000000|9 AM - 1 PM
+4|Dr. Suryansh Sirohi|Ayurvedic Spine & Joint Specialist|9090909090|700.000000|2 PM - 6 PM
+5|Dr. Niranjan Tewari|Shalakya Tantra (Eye/ENT)|8877665544|650.000000|9 AM - 3 PM
+6|Dr. Shreya Tomar|Kayachikitsa Specialist|9900112233|800.000000|10 AM - 5 PM
+7|Dr. Mrinal Mandal|Ayurvedic Dermatologist|9876501234|550.000000|4 PM - 7 PM
+8|Dr. Ritu Bansal|Kaumarbhritya (Pediatrics)|9811122233|600.000000|10 AM - 2 PM
+9|Dr. Karthik Iyer|Manas Roga (Psychiatry Ayurveda)|9123987654|750.000000|12 PM - 4 PM
+10|Dr. Prachi Rastogi|Rasayana & Wellness|7845123698|500.000000|5 PM - 8 PM
+11|Dr. Vipin Sinha|Naturopathy Yoga Consultant|9098123456|700.000000|9 AM - 12 PM
+12|Dr. Harshit Bansal|Ayurvedic Bone & Joint Specialist|7000891122|300.000000|3 PM - 6 PM
+13|Dr. Poonam Kaur|Ayurvedic Nutrition Specialist|9812345000|400.000000|10 AM - 1 PM
+14|Dr. Tanishq Bhatia|Physiotherapist (Orthopedic)|8956231478|500.000000|2 PM - 7 PM
+15|Dr. Anjali Mehra|Physiotherapist (Neurology)|9000789123|700.000000|11 AM - 4 PM
+16|Dr. Lakshay Sirohi|Naturopathy & Hydrotherapy|8765432190|450.000000|9 AM - 12 PM
+17|Dr. Isha Menon|Physiotherapist (Sports)|9554321987|550.000000|4 PM - 8 PM
+18|Dr. Nishant Rawal|Ayurvedic ENT Specialist|8112233445|650.000000|10 AM - 3 PM
+19|Dr. Divya Raina|Ayurvedic Gynecology|7007007007|600.000000|2 PM - 6 PM
+20|Aarti Chauhan|Panchakarma Therapist|9873214560|300.000000|10 AM - 2 PM
+21|Meena Rajput|Abhyanga Massage Therapist|9011452398|250.000000|3 PM - 6 PM
+22|Savita Malik|Shirodhara Therapist|9654781230|350.000000|11 AM - 3 PM
+23|Ankita Sood|Udvartanam Therapist|9817723344|300.000000|10 AM - 1 PM
+24|Radhika Verma|Steam Swedana Therapist|9088776655|320.000000|4 PM - 7 PM
+25|Priya Nair|Kati Basti Therapist|9234567810|350.000000|9 AM - 12 PM
+26|Neelam Tripathi|Nasya Therapist|9112233445|300.000000|1 PM - 4 PM
+27|Chitra Singh|Panchakarma Technician|9867543210|400.000000|11 AM - 5 PM
+28|Kaveri Das|Mud Therapy Specialist|9654598765|250.000000|10 AM - 1 PM
+29|Alka Joshi|Hydrotherapy Assistant|9988123476|200.000000|3 PM - 6 PM
+30|Rina Paul|Yoga Therapist|9123412341|450.000000|6 AM - 11 AM
+31|Ritam Sen|Yoga & Rehabilitation Specialist|9345678123|600.000000|2 PM - 6 PM
+32|Dr. Aman Kaushik|Naturopathy Lifestyle Expert|9786541230|550.000000|10 AM - 3 PM
+33|Dr. Ruchi Varma|Ayurveda Women Wellness|9456127834|600.000000|12 PM - 4 PM
+34|Dr. Anupam Ghosh|Ayurvedic Cardio Specialist|8765123490|800.000000|9 AM - 2 PM
+35|Dr. Varun Kaushik|Physiotherapist (Cardio-Pulmonary)|9877012345|550.000000|3 PM - 7 PM
+36|Dr. Rupal Dhawan|Naturopathy Diet Therapist|9004578123|500.000000|11 AM - 2 PM
+37|Aman Bhardwaj|Panchakarma Technician|9812456790|300.000000|9 AM - 12 PM
+38|Ritika Saxena|Aromatherapy Specialist|8899001122|350.000000|1 PM - 5 PM
+39|Urvashi Rana|Ayurvedic Beauty Therapist|9234561199|250.000000|10 AM - 12 PM
+40|Dr. Aarushi Sharma|Ayurvedic Skin Specialist|9457811234|650.000000|3 PM - 7 PM
+41|Dr. Samar Goel|Ayurvedic Gastro Specialist|9988771122|750.000000|11 AM - 4 PM
+42|Dr. Rehan Ahmed|Naturopathy Stress Consultant|8123456790|450.000000|10 AM - 1 PM
+43|Dr. Pallavi Singh|Ayurvedic Pain Specialist|9321547680|700.000000|2 PM - 6 PM
+44|Dr. Nainika Joshi|Ayurvedic Diabetes Specialist|9876501258|600.000000|9 AM - 1 PM
+45|Dr. Dhruv Chauhan|Ayurvedic General Practitioner|9567812340|500.000000|5 PM - 9 PM
+46|Anvesha Gupta|Herbal Massage Therapist|9998877665|250.000000|11 AM - 2 PM
+47|Parth Sinha|Yoga & Meditation Coach|9234587610|400.000000|6 AM - 10 AM
+48|Shreya Thakur|Physiotherapist (Rehab)|9012376548|550.000000|12 PM - 5 PM
