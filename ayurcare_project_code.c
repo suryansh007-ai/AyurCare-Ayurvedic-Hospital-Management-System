@@ -6,6 +6,7 @@ typedef struct{
     char name[50];
     int expr;
     int stock;
+    float price;
 }med;
 
 struct patient {
@@ -508,62 +509,90 @@ void patientMenu() {
         printf("Wrong Choice");
     }
 }
+void doctorMenu()
+{   int n;
+    printf("\n---Doctor and Therapist Management---\n");
+    printf("1.Add Doctor/Therapist\n2.Edit Doctor's/Therapist's Details\n3.Delete Doctor's/Therapist's details\n4.Search Doctor/Therapist\n5.Display list of doctors/Therapists\n6.Assign Doctor/Therapist to patient\n7.Doctor Availability/Scheduling");
+    printf("\nEnter your choice:");
+    scanf("%d",&n);
+    switch (n)
+    {
+    case 1:
+        {
+          adddoctor();
+        }
+    case 2:
+        {
+          editdoctor();
+        }
+    case 3:
+    {
+        deletedoctor();
+    }
+    case 4:
+        {
+           searchdoc();
+        }
+    case 5:
+        {
+           displaydocs();
+        }
+    case 6:
+        {
+            //assign();
+        }
+    case 7:
+        {
+           // availability();
+        }
+    }
+}
 
 /* ------------------ MEDICINE FUNCTIONS ------------------ */
 
-void addmed() {
+void addmed(){  // AVI NEGI
     med m;
-    FILE *f = fopen("medicine.txt","a");
-    if (f == NULL){
+    FILE *f=fopen("medicine.txt","a");
+    if (f==NULL){
         printf("Error opening file!\n");
-        return;
     }
     printf("Enter Name of Medicine: ");
-    scanf(" %[^\n]",m.name);
-    printf("Enter Expiration Date(MM YYYY): ");
-    scanf("%d",&m.expr);
+    scanf(" %[^\n]",&m.name);
+    printf("Enter Expiration Date(YYYY): ");
+    scanf(" %d",&m.expr);
     printf("Enter Amount: ");
-    scanf("%d",&m.stock);
-
-    fprintf(f, "%s|%d|%d\n", m.name, m.expr, m.stock);
+    scanf(" %d",&m.stock);
+    printf("Enter Price: ");
+    scanf(" %f",&m.price);
+    fprintf(f, "%s|%d|%d|%f\n", m.name, m.expr, m.stock,m.price);
     fclose(f);
-
     printf("Medicine added successfully with Name %s\n", m.name);
 }
-
-void viewmed() {
-    FILE* f = fopen("medicine.txt","r");
-    if(f == NULL){
+void viewmed(){  // AVI NEGI
+    FILE* f=fopen("medicine.txt","r");
+    if(f==NULL){
         printf("No Medicine Found\n");
         return;
     }
-
     med m;
-    int pos = 0;
+    int pos=0;
     printf("-------MEDICINES-------\n");
-
-    while(fscanf(f," %49[^|]|%d|%d\n",m.name,&m.expr,&m.stock)==3){
-        printf("%d) Name: %s | Expiration: %d | Stock: %d\n",
-               ++pos, m.name, m.expr, m.stock);
+    while(fscanf(f," %49[^|]|%d|%d|%f\n",&m.name,&m.expr,&m.stock,&m.price)==4){
+        printf("%d) Name: %s | Expiration: %d | Stock: %d | Price: %f\n",++pos,m.name,m.expr,m.stock,m.price);
     }
-
-    if(pos == 0) printf("Inventory Is Empty\n");
+    if(pos==0) printf("Inventory Is Empty\n");
     fclose(f);
 }
-
-void delmed() {
+void delmed(){     // AVI NEGI
     char aim[50];
     int amt;
-
     printf("Enter the name of medicine: ");
     scanf(" %[^\n]",aim);
     printf("Enter Amount:");
-    scanf("%d",&amt);
-
-    FILE* f = fopen("medicine.txt","r");
-    FILE* temp = fopen("temp_med.txt","w");
-
-    if (f == NULL || temp == NULL)
+    scanf(" %d",&amt);
+    FILE* f=fopen("medicine.txt","r");
+    FILE* temp=fopen("temp_med.txt","w");
+    if (f==NULL||temp==NULL)
     {
         printf("Error opening file!\n");
         if (f) fclose(f);
@@ -571,55 +600,47 @@ void delmed() {
         if (temp) remove("temp_med.txt");
         return;
     }
-
     med m;
-    int found = 0;
-
-    while(fscanf(f," %49[^|]|%d|%d\n",m.name,&m.expr,&m.stock)==3){
-        if(strcmp(m.name,aim) == 0 && found == 0){
-            found = 1;
-
-            if(amt > m.stock){
+    int found=0;
+     while(fscanf(f," %49[^|]|%d|%d|%f\n",m.name,&m.expr,&m.stock,&m.price)==4){
+        if(strcmp(m.name,aim)==0&&found==0){
+            found=1;
+            if(amt>m.stock){
                 printf("Only %d units in stock",m.stock);
                 fclose(f);
                 fclose(temp);
                 remove("temp_med.txt");
                 return;
             }
+            m.stock-=amt;
+            printf("\nUpdated Stock of %s: %d",m.name,m.stock);
 
-            m.stock -= amt;
-            printf("Updated Stock of %s: %d",m.name,m.stock);
-
-            if(m.stock > 0)
-                fprintf(temp,"%s|%d|%d\n",m.name,m.expr,m.stock);
-
+            if(m.stock>0) fprintf(temp,"%s|%d|%d|%f\n",m.name,m.expr,m.stock,m.price);
             continue;
         }
-
-        fprintf(temp,"%s|%d|%d\n",m.name,m.expr,m.stock);
+    
+        fprintf(temp,"%s|%d|%d|%f\n",m.name,m.expr,m.stock,m.price);
     }
-
     fclose(f);
     fclose(temp);
 
-    if(!found){
+    if(found==0){
         printf("Medicine Not Found!\n");
-        remove("temp_med.txt");
-    } else {
+        remove("temp_med.txt");        
+    } else{
         remove("medicine.txt");
         rename("temp_med.txt","medicine.txt");
-        printf("Amount Deducted Successfully");
+        printf("\nAmount Deducted Successfully");
     }
 }
 
-void inventoryMenu() {
-    printf("\n--- Medicine Inventory ---\n");
+void inventoryMenu() //AVI NEGI
+{
+     printf("\n--- Medicine Inventory ---\n");
     printf("1. Add item\n2. View all\n3. Delete item\n4. Back to main menu\n");
-
     int ch;
     printf("Enter you Choice: ");
     scanf("%d",&ch);
-
     switch(ch){
         case 1: addmed(); break;
         case 2: viewmed(); break;
@@ -629,11 +650,13 @@ void inventoryMenu() {
     }
 }
 
-void therapyMenu() {
+void therapyMenu()
+{
     printf("\n--- Panchkarma Therapy Schedule ---\n");
+    // you will add code here later
 }
 
-void billingMenu() {
+void billingMenu(){
     struct doctor doc;
     med m;    
     printf("\n--- Billing Section ---\n");
@@ -668,7 +691,6 @@ void billingMenu() {
         if (doc.doc_id==id){
             docf=1;
             total+=doc.fee;
-            m.stock-=q;
             break;
         }       
     }
@@ -689,6 +711,7 @@ int medf=0;
                 return;
             }
             total+=(m.price)*q;
+            m.stock-=q;
             break;        
         }
     }
@@ -705,7 +728,7 @@ int medf=0;
     printf("-----------------------------\n");
     printf("Total payable: %.2f\n", total);
     fclose(f1);
-    fclose(f2);
+    fclose(f2);    
 }
 
 void reportsMenu() {
@@ -767,4 +790,5 @@ int main() {
 
     return 0;
 }
+
 
