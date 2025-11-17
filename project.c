@@ -523,7 +523,7 @@ void viewmed(){  // AVI NEGI
     med m;
     int pos=0;
     printf("-------MEDICINES-------\n");
-    while(fscanf(f," %50[^|]|%d|%d\n",&m.name,&m.expr,&m.stock)==3){
+    while(fscanf(f," %49[^|]|%d|%d\n",&m.name,&m.expr,&m.stock)==3){
         printf("%d) Name: %s | Expiration: %d | Stock: %d\n",++pos,m.name,m.expr,m.stock);
     }
     if(pos==0) printf("Inventory Is Empty\n");
@@ -672,13 +672,3 @@ int main()
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
