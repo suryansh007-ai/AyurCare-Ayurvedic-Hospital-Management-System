@@ -6,7 +6,7 @@ AyurCare is a console-based hospital management system made in C. It helps Ayurv
 Panchakarma centers manage their daily work. It stores data using file handling so the information
 stays safe even after the program closes.
 The system makes it easier to handle patients, doctors, therapists, medicines, therapy schedules, and
-billing—while.
+billing.
 
 Features
 
