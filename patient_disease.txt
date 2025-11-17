@@ -1,0 +1,25 @@
+0|Aarav Jain|Viral Fever|Under Observation
+1|Rohan Sharma|Dengue|Admitted
+2|Meena Kumari|Typhoid|Admitted
+3|Suresh Gupta|Hypertension|On Medication
+4|Pooja Singh|Diabetes Type 2|On Medication
+5|Neha Verma|Asthma|Under Observation
+6|Rajat Tyagi|Migraine|On Medication
+7|Ayush Pandey|Pneumonia|Admitted
+8|Shruti Chauhan|COVID-19|Admitted
+9|Kabir Malhotra|Anemia|On Medication
+10|Simran Kaur|Urinary Tract Infection|Under Treatment
+11|Aditya Jain|Gastritis|Under Treatment
+12|Harshit Bansal|Chickenpox|Admitted
+13|Kritika Kapoor|Allergic Rhinitis|On Medication
+14|Vivek Rathore|Tuberculosis|Long-Term Treatment
+15|Ananya Mishra|Arthritis|On Medication
+16|Lakshay Ahuja|Bronchitis|Under Observation
+17|Pranav Singh|Kidney Stone|Scheduled Surgery
+18|Manish Rawat|Fractured Arm|Post-Surgery
+19|Daksh Raina|Hypothyroidism|On Medication
+20|Yash Tiwari|Sinusitis|Under Treatment
+21|Raghav Sharma|Acute Appendicitis|Post-Surgery
+22|Rahul Sharma|Viral Hepatitis A|Admitted
+23|Aditi Mehra|Ear Infection|Under Treatment
+24|Vanshika Arora|Skin Infection|On Medication
