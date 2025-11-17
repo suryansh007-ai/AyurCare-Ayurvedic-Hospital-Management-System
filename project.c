@@ -466,7 +466,7 @@ void patientMenu()
 void doctorMenu()
 {   int n;
     printf("\n---Doctor and Therapist Management---\n");
-    printf("1.Add Doctor/Therapist\n2.Edit Doctor's/Therapist's Details\n3.Delete Doctor's/Therapist's details\n4.Search Doctor/Therapist\n5.Display list of doctors/Therapists\n6.Assign Doctor/Therapist to patient\n7.Doctor Availability/Scheduling");
+    printf("1.Add Doctor/Therapist\n2.Edit Doctor's/Therapist's Details\n3.Delete Doctor's/Therapist's details\n4.Search Doctor/Therapist\n5.Display list of doctors/Therapists with certain specilization\n");
     printf("\nEnter your choice:");
     scanf("%d",&n);
     switch (n)
@@ -491,14 +491,10 @@ void doctorMenu()
         {
            displaydocs();
         }
-    case 6:
-        {
-            //assign();
-        }
-    case 7:
-        {
-           // availability();
-        }
+    default:
+            {
+                printf("Wrong choice!");
+            }
     }
 }
 
@@ -676,6 +672,7 @@ int main()
 
     return 0;
 }
+
 
 
 
