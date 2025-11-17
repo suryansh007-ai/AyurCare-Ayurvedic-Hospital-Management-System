@@ -1,4 +1,4 @@
-0|Avi Negi|Arthala Ghaziabad|9876543210
+0|Aarav Jain|Arthala Ghaziabad|9876543210
 1|Rohan Sharma|Noida Sector 62|9123456789
 2|Meena Kumari|Delhi Rohini Sector 16|9988776655
 3|Suresh Gupta|Gurgaon DLF Phase 2|9012345678
@@ -18,34 +18,10 @@
 17|Tanya Dutta|Indirapuram ATS Advantage|9554321987
 18|Manish Rawat|Noida Sector 15|8112233445
 19|Divya Raina|Ghaziabad Kavi Nagar|7007007007
-20|Suryansh Sirohi|Ghaziabad Shastri Nagar|9873214560
-21|Raghav Sharma|Delhi Uttam Nagar|9011452398
-22|Mrinal Mandal|Noida Sector 22|9654781230
+20|Kartikey Singhal|Ghaziabad Shastri Nagar|9873214560
+21|Rohan Sharma|Delhi Uttam Nagar|9011452398
+22|Rohit Verma|Noida Sector 22|9654781230
 23|Aditi Mehra|Delhi Hauz Khas|9817723344
 24|Vanshika Arora|Gurgaon MG Road|9088776655
 25|Ishaan Tewari|Noida Sector 137|9234567810
-26|Nikita Chauhan|Faridabad Greenfield Colony|9112233445
-27|Arnav Khurana|Delhi Punjabi Bagh|9867543210
-28|Sakshi Malik|Ghaziabad Indirapuram|9654598765
-29|Devansh Bhatia|Noida Sector 76|9988123476
-30|Tanishq Verma|Gurgaon Sohna Road|9123412341
-31|Riya Gupta|Delhi Karol Bagh|9345678123
-32|Yash Rajput|Noida Sector 50|9786541230
-33|Aarav Pundir|Ghaziabad Crossing Republik|9456127834
-34|Muskan Jain|Delhi Chandni Chowk|8765123490
-35|Varun Kaushik|Gurgaon Udyog Vihar|9877012345
-36|Isha Dhawan|Delhi Civil Lines|9004578123
-37|Arpit Bhardwaj|Noida City Center|9812456790
-38|Pragati Saxena|Ghaziabad Lohia Nagar|8899001122
-39|Utkarsh Rana|Delhi Saket|9234561199
-40|Aarushi Sharma|Noida Sector 18|9457811234
-41|Samar Goel|Faridabad NIT 3|9988771122
-42|Rehan Ahmed|Delhi Jamia Nagar|8123456790
-43|Pallavi Singh|Gurgaon Golf Course Road|9321547680
-44|Nainika Joshi|Noida Pari Chowk|9876501258
-45|Dhruv Chauhan|Ghaziabad Mohan Nagar|9567812340
-46|Anvesha Gupta|Delhi Rajouri Garden|9998877665
-47|Parth Sinha|Noida Sector 71|9234587610
-48|Shreya Thakur|Gurgaon Sector 14|9012376548
-49|Kunal Mehta|Delhi Connaught Place|9811234567
-
+26|Nikita Chauhan|Faridabad Greenfield Colony|911223344
