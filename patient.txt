@@ -23,5 +23,3 @@
 22|Rohit Verma|Noida Sector 22|9654781230
 23|Aditi Mehra|Delhi Hauz Khas|9817723344
 24|Vanshika Arora|Gurgaon MG Road|9088776655
-25|Ishaan Tewari|Noida Sector 137|9234567810
-26|Nikita Chauhan|Faridabad Greenfield Colony|911223344
