@@ -25,7 +25,7 @@ struct doctor {
 };
 
 void adddoctor() {
-    FILE *fp = fopen("doctor_profile.txt","a");
+    FILE *fp = fopen("doctor.txt","a");
     struct doctor doc;
     static int id = 0;
     int count = 0;
@@ -78,7 +78,7 @@ void editdoctor() {
     printf("Enter doctor/therapist ID whose details you wish to change?");
     scanf("%d",&id);
 
-    FILE *fp = fopen("doctor_profile.txt","r");
+    FILE *fp = fopen("doctor.txt","r");
     FILE *fpw = fopen("temp1.txt","w");
     if(fp == NULL || fpw == NULL) {
         printf("Error in opening file,it does not exist\n");
@@ -138,8 +138,8 @@ void editdoctor() {
         printf("\nDoctor/Therapist ID does not exist\n");
         remove("temp1.txt");
     } else {
-        remove("doctor_profile.txt");
-        rename("temp1.txt","doctor_profile.txt");
+        remove("doctor.txt");
+        rename("temp1.txt","doctor.txt");
         printf("\nDetails Updated Successfully\n");
     }
 }
@@ -149,7 +149,7 @@ void deletedoctor() {
     printf("Enter Doctor/Therapist ID to delete:");
     scanf("%d",&id);
 
-    FILE *fp = fopen("doctor_profile.txt","r");
+    FILE *fp = fopen("doctor.txt","r");
     FILE *temp = fopen("temp1.txt","w");
     if (fp == NULL || temp == NULL) {
         printf("Error opening file!\n");
@@ -178,15 +178,15 @@ void deletedoctor() {
         printf("\nDoctor/Therapist ID %d not found.\n",id);
         remove("temp1.txt");
     } else {
-        remove("doctor_profile.txt");
-        rename("temp1.txt", "doctor_profile.txt");
+        remove("doctor.txt");
+        rename("temp1.txt", "doctor.txt");
         printf("\nDoctor/Therapist ID %d deleted successfully.\n",id);
     }
 }
 
 void searchdoc() {
     int found = 0;
-    FILE *fp = fopen("doctor_profile.txt","r");
+    FILE *fp = fopen("doctor.txt","r");
     if (fp == NULL) {
         printf("Error opening file!\n");
         return;
@@ -233,7 +233,7 @@ void displaydocs() {
     char searchSpec[100];
     int found = 0;
 
-    FILE *fp = fopen("doctor_profile.txt","r");
+    FILE *fp = fopen("doctor.txt","r");
     if (!fp) {
         printf("Error opening doctor file!\n");
         return;
