@@ -18,7 +18,7 @@ struct patient {
 struct doctor {
     int doc_id;
     char doc_name[100];
-    char spec[200];
+    char spec[100];
     long long int phone;
     float fee;
     char timing[100];
@@ -634,7 +634,78 @@ void therapyMenu() {
 }
 
 void billingMenu() {
+    struct doctor doc;
+    med m;    
     printf("\n--- Billing Section ---\n");
+    int q,id,con;
+    float total=0.0;
+    char medname[50];
+
+    FILE* f1=fopen("doctor.txt","r");
+    FILE* f2=fopen("medicine.txt","r");
+    if (f1 == NULL) {
+        printf("Error: cannot open doctor file.\n");
+        if (f2) fclose(f2);
+        return;
+    }
+    if (f2 == NULL) {
+        printf("Error: cannot open medicine file.\n");
+        fclose(f1);
+        return;
+    }
+    do{
+        printf("Enter ID of Doctor: ");
+        scanf(" %d",&id);
+        printf("Enter Name of Medicine(In Small Letters): ");
+        scanf(" %[^\n]",medname);
+        printf("Enter Quantity of Medicine: ");
+        scanf("%d",&q);
+        printf("If you want bill press '1',If you want to change Something press '0'\n");
+        scanf("%d",&con);
+    } while(con==0);
+    int docf=0;
+    while(fscanf(f1,"%d|%99[^|]|%199[^|]|%lld|%f|%49[^\n]\n",&doc.doc_id,&doc.doc_name,&doc.spec,&doc.phone,&doc.fee,&doc.timing)==6){
+        if (doc.doc_id==id){
+            docf=1;
+            total+=doc.fee;
+            m.stock-=q;
+            break;
+        }       
+    }
+    if(docf==0){
+        printf("Doctor with ID %d Not Found\n",id);
+        fclose(f1);fclose(f2);
+        return;
+    }
+
+int medf=0;
+    while(fscanf(f2," %49[^|]|%d|%d|%f\n",&m.name,&m.expr,&m.stock,&m.price)==4){
+        if(strcmp(m.name,medname)==0){
+            medf=1;
+            if(q>m.stock){
+                printf("Only %d units in stock\n",m.stock);
+                fclose(f1);
+                fclose(f2);
+                return;
+            }
+            total+=(m.price)*q;
+            break;        
+        }
+    }
+    if(medf==0){
+        printf("Medicine %s not Found\n",medname);
+        fclose(f1); fclose(f2);
+        return;
+    }
+
+    printf("--- Bill Summary ---\n");
+    printf("Doctor: %s (Fee: %.2f)\n", doc.doc_name, doc.fee);
+    printf("Medicine: %s | Unit price: %f | Qty: %d | Subtotal: %.2f\n",
+           m.name, m.price, q, m.price * q);
+    printf("-----------------------------\n");
+    printf("Total payable: %.2f\n", total);
+    fclose(f1);
+    fclose(f2);
 }
 
 void reportsMenu() {
@@ -696,3 +767,4 @@ int main() {
 
     return 0;
 }
+
