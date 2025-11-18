@@ -650,11 +650,334 @@ void inventoryMenu() //AVI NEGI
     }
 }
 
-void therapyMenu()
-{
-    printf("\n--- Panchkarma Therapy Schedule ---\n");
-    // you will add code here later
+/* =========== PANCKARMA THERAPY FUNCTIONS - START =========== */
+
+struct Therapy {
+    int therapy_id;
+    char therapist_name[100];
+    char therapy_name[200];
+    long long int phone;
+    float fee;
+    char timing[100];
+};
+
+
+int getMaxTherapyId() {
+    FILE *fp = fopen("panchkarma_schedule.txt","r");
+    int id = 0;
+    if (fp == NULL) {
+        printf("Error opening file!\n");
+        return id;
+    }
+
+    struct Therapy therapy;
+
+    while(fscanf(fp,"%d|%99[^|]|%99[^|]|%lld|%f|%49[^\n]\n",
+                 &therapy.therapy_id, therapy.therapist_name, therapy.therapy_name,
+                 &therapy.phone, &therapy.fee, therapy.timing) == 6)
+    {
+        if (therapy.therapy_id > id) {
+            id = therapy.therapy_id;
+        }
+    }
+
+    fclose(fp);
+    return id;
 }
+
+
+void addTherapy() {
+    FILE *fp = fopen("panchkarma_schedule.txt","a");
+    struct Therapy therapy;
+    static int id = 0;
+    int count = 0;
+    long long temp;
+
+    if(fp == NULL) {
+        printf("Error opening file.");
+        return;
+    }
+
+    therapy.therapy_id = getMaxTherapyId() + 1;
+    
+    printf("Enter Therapist Name:");
+    getchar();
+    fgets(therapy.therapist_name,100,stdin);
+    therapy.therapist_name[strcspn(therapy.therapist_name, "\n")] = '\0';
+
+    printf("Enter Therapy Name:");
+    fgets(therapy.therapy_name,200,stdin);
+    therapy.therapy_name[strcspn(therapy.therapy_name, "\n")] = '\0';
+
+    while (1) {
+        printf("Enter Therapist Phone Number:");
+        scanf("%lld",&therapy.phone);
+        temp = therapy.phone;
+        count = 0;
+        while(temp != 0) {
+            temp /= 10;
+            count++;
+        }
+        if (count == 10)
+            break;
+        else
+            printf("Invalid Phone number\n");
+    }
+
+    printf("Enter Therapy Fee:");
+    scanf("%f",&therapy.fee);
+    printf("Enter available timings in format (e.g 10 AM - 2 PM):");
+    getchar();
+    fgets(therapy.timing,50,stdin);
+    therapy.timing[strcspn(therapy.timing, "\n")] = '\0';
+
+    fprintf(fp,"\n%d|%s|%s|%lld|%f|%s",
+            therapy.therapy_id, therapy.therapist_name, therapy.therapy_name, therapy.phone, therapy.fee, therapy.timing);
+
+    fclose(fp);
+    printf("\nTherapy details have been successfully added\n");
+    printf("%d|%s|%s|%lld|%f|%s\n",
+            therapy.therapy_id, therapy.therapist_name, therapy.therapy_name, therapy.phone, therapy.fee, therapy.timing);
+}
+
+void editTherapy() {
+    struct Therapy therapy;
+    int id, flag = 0, store;
+    printf("Enter Therapy/therapist ID whose details you wish to change?");
+    scanf("%d",&id);
+
+    FILE *fp = fopen("panchkarma_schedule.txt","r");
+    FILE *fpw = fopen("temp1.txt","w");
+    if(fp == NULL || fpw == NULL) {
+        printf("Error in opening file,it does not exist\n");
+        return;
+    }
+
+    while (fscanf(fp,"%d|%99[^|]|%99[^|]|%lld|%f|%49[^\n]\n",
+                  &therapy.therapy_id, therapy.therapist_name, therapy.therapy_name,
+                  &therapy.phone, &therapy.fee, therapy.timing) == 6)
+    {
+        if (therapy.therapy_id == id) {
+            flag = 1;
+            printf("\nCurrent Detials:\n");
+            printf("Therapy ID:%d\nName:%s\nTherapy Name:%s\nPhone:%lld\nTherapy  FEE:%f\nTimings:%s\n",
+                   therapy.therapy_id, therapy.therapist_name, therapy.therapy_name, therapy.phone, therapy.fee, therapy.timing);
+
+            printf("1.Change Therapist name\n2.Change Therapy name\n3.Change /Therapist's Phone Number\n4.Change Therapy fee amount\n5.Change Timings\nEnter your choice:");
+            scanf("%d",&store);
+
+            switch(store) {
+                case 1:
+                    printf("Enter NEW Therapist Name:");
+                    getchar();
+                    fgets(therapy.therapist_name,100,stdin);
+                    therapy.therapist_name[strcspn(therapy.therapist_name, "\n")] = '\0';
+                    break;
+                case 2:
+                    printf("Enter NEW Therapy name:");
+                    getchar();
+                    fgets(therapy.therapy_name,300,stdin);
+                    therapy.therapy_name[strcspn(therapy.therapy_name, "\n")] = '\0';
+                    break;
+                case 3:
+                    printf("Enter new phone number:");
+                    scanf("%lld",&therapy.phone);
+                    break;
+                case 4:
+                    printf("Enter NEW Therapy FEE:");
+                    scanf("%f",&therapy.fee);
+                    break;
+                case 5:
+                    printf("Enter NEW Timings in format (e.g 10 AM - 2 PM):");
+                    getchar();
+                    fgets(therapy.timing,100,stdin);
+                    therapy.timing[strcspn(therapy.timing, "\n")] = '\0';
+                    break;
+                default:
+                    printf("Wrong Choice");
+            }
+
+            printf("\nDetails Updated Successfully. Updated record details:\n");
+            printf("%d|%s|%s|%lld|%f|%s\n",
+                therapy.therapy_id, therapy.therapist_name, therapy.therapy_name, therapy.phone, therapy.fee, therapy.timing);
+        }
+
+        fprintf(fpw,"\n%d|%s|%s|%lld|%f|%s",
+                therapy.therapy_id, therapy.therapist_name, therapy.therapy_name, therapy.phone, therapy.fee, therapy.timing);
+
+    }
+
+    fclose(fp);
+    fclose(fpw);
+
+    if(!flag) {
+        printf("\nTherapy ID does not exist\n");
+        remove("temp1.txt");
+    } else {
+        remove("panchkarma_schedule.txt");
+        rename("temp1.txt","panchkarma_schedule.txt");
+    }
+}
+
+void deleteTherapy() {
+    int id;
+    printf("Enter Therapy ID to delete:");
+    scanf("%d",&id);
+
+    FILE *fp = fopen("panchkarma_schedule.txt","r");
+    FILE *temp = fopen("temp1.txt","w");
+    if (fp == NULL || temp == NULL) {
+        printf("Error opening file!\n");
+        return;
+    }
+
+    struct Therapy therapy;
+    int found = 0;
+
+    while(fscanf(fp,"%d|%99[^|]|%99[^|]|%lld|%f|%49[^\n]\n",
+                 &therapy.therapy_id, therapy.therapist_name, therapy.therapy_name, &therapy.phone, &therapy.fee, therapy.timing) == 6)
+    {
+        if (therapy.therapy_id == id) {
+            found = 1;
+            continue;
+        }
+
+        fprintf(temp,"%d|%s|%s|%lld|%f|%s\n",
+                therapy.therapy_id, therapy.therapist_name, therapy.therapy_name, therapy.phone, therapy.fee, therapy.timing);
+    }
+
+    fclose(fp);
+    fclose(temp);
+
+    if(!found) {
+        printf("\nTherapy ID %d not found.\n",id);
+        remove("temp1.txt");
+    } else {
+        remove("panchkarma_schedule.txt");
+        rename("temp1.txt", "panchkarma_schedule.txt");
+        printf("\nTherapy ID %d deleted successfully.\n",id);
+    }
+}
+
+void searchTherapyById() {
+    int found = 0;
+    FILE *fp = fopen("panchkarma_schedule.txt","r");
+    if (fp == NULL) {
+        printf("Error opening file!\n");
+        return;
+    }
+
+    struct Therapy therapy;
+    int id;
+    printf("Enter Therapy ID:");
+    scanf("%d",&id);
+
+    while(fscanf(fp,"%d|%99[^|]|%99[^|]|%lld|%f|%49[^\n]\n",
+                 &therapy.therapy_id, therapy.therapist_name, therapy.therapy_name,
+                 &therapy.phone, &therapy.fee, therapy.timing) == 6)
+    {
+        if (therapy.therapy_id == id) {
+            found = 1;
+            printf("-----Therapy ID Found-----");
+            printf("\n%d",therapy.therapy_id);
+            printf("\n%s",therapy.therapist_name);
+            printf("\n%s",therapy.therapy_name);
+            printf("\n%lld",therapy.phone);
+            printf("\n%f",therapy.fee);
+            printf("\n%s",therapy.timing);
+            break;
+        }
+    }
+    if (!found)
+        printf("Therapy ID %d Record not found", id);
+
+    fclose(fp);
+}
+
+
+void displayTherapyByName() {
+    struct Therapy therapy;
+    char therapyName[100];
+    int found = 0;
+
+    FILE *fp = fopen("panchkarma_schedule.txt","r");
+    if (!fp) {
+        printf("Error opening Therapy file!\n");
+        return;
+    }
+
+    getchar();
+    printf("Enter Therapy name to search:");
+    fgets(therapyName,100,stdin);
+    trim(therapyName);
+
+    printf("\n---Therapy with name :%s---\n",therapyName);
+
+    while(fscanf(fp,"%d|%99[^|]|%99[^|]|%lld|%f|%49[^\n]\n",
+                 &therapy.therapy_id, therapy.therapist_name, therapy.therapy_name,
+                 &therapy.phone, &therapy.fee, therapy.timing) == 6)
+    {
+        trim(therapy.therapy_name);
+        if (strcasecmp(therapy.therapy_name,therapyName)==0)
+        {
+            found = 1;
+            printf("Therapy ID:%d|Therapist NAME:%s|Therapy Name:%s|Therapist's Phone No.:%lld|Therapy Fee:%f|Timings:%s\n",
+                   therapy.therapy_id,therapy.therapist_name,therapy.therapy_name,therapy.phone,therapy.fee,therapy.timing);
+        }
+    }
+
+    fclose(fp);
+
+    if(!found)
+        printf("\nNo Therapy found for name :%s\n",therapyName);
+
+    printf("\n\n");
+}
+
+void viewAllTherapies() {
+    struct Therapy therapy;
+    FILE *fp = fopen("panchkarma_schedule.txt","r");
+
+    if (!fp) {
+        printf("Error opening Therapy file!\n");
+        return;
+    }
+
+    while(fscanf(fp,"%d|%99[^|]|%99[^|]|%lld|%f|%49[^\n]\n",
+                 &therapy.therapy_id, therapy.therapist_name, therapy.therapy_name,
+                 &therapy.phone, &therapy.fee, therapy.timing) == 6)
+    {
+         printf("Therapy ID:%d|Therapist NAME:%s|Therapy name:%s|Therapist's Phone No.:%lld|Therapy Fee:%f|Timings:%s\n",
+                   therapy.therapy_id,therapy.therapist_name,therapy.therapy_name,therapy.phone,therapy.fee,therapy.timing);
+    }
+
+    fclose(fp);
+
+    printf("\n\n");
+}
+
+void therapyMenu() {
+    printf("\n--- Panchkarma Therapy Schedule ---\n");
+    printf("1. Add Therapy\n2. Edit Therapy\n3. Delete Therapy\n4. Search Therapy By Id\n5. Search Therapy By Name\n6. View all Therapies\n7. Back to main menu\n");
+
+    int ch;
+    printf("Enter you Choice: ");
+    scanf("%d",&ch);
+
+    switch(ch){
+        case 1: addTherapy(); break;
+        case 2: editTherapy(); break;
+        case 3: deleteTherapy(); break;
+        case 4: searchTherapyById(); break;
+        case 5: displayTherapyByName(); break;
+        case 6: viewAllTherapies(); break;
+        case 7: return;
+        default: printf("Invalid choice.\n");
+    }
+}
+
+
+/* =========== PANCKARMA THERAPY FUNCTIONS - END =========== */
 
 void billingMenu(){
     struct doctor doc;
@@ -731,9 +1054,321 @@ int medf=0;
     fclose(f2);    
 }
 
-void reportsMenu() {
-    printf("\n--- Reports Section ---\n");
+/* =========== REPORTS FUNCTIONS - START =========== */
+
+struct Reports {
+    int report_id;
+    char patient_name[100];
+    char report_name[200];
+    long long int value;
+    float cost;
+    char timing[100];
+};
+
+int getMaxReportId() {
+    struct Reports report;
+    int id = 0;
+    FILE *fp = fopen("reports.txt","r");
+    
+    if(fp == NULL) {
+        printf("Error in opening file,it does not exist\n");
+        return id;
+    }
+
+    while (fscanf(fp,"%d|%99[^|]|%99[^|]|%lld|%f|%49[^\n]\n",
+                  &report.report_id, report.patient_name, report.report_name,
+                  &report.value, &report.cost, report.timing) == 6)
+    {
+        if (report.report_id > id) {
+            id = report.report_id;
+        }
+    }
+
+    fclose(fp);
+    return id;
+ }
+
+
+void addReports() {
+    FILE *fp = fopen("reports.txt","a");
+    struct Reports report;
+    static int id = 0;
+    int count = 0;
+    long long temp;
+
+    if(fp == NULL) {
+        printf("Error opening file.");
+        return;
+    }
+
+    report.report_id = getMaxReportId() + 1;
+
+    printf("Enter Patient Name:");
+    getchar();
+    fgets(report.patient_name,100,stdin);
+    report.patient_name[strcspn(report.patient_name, "\n")] = '\0';
+
+    printf("Enter Reports Name:");
+    fgets(report.report_name,200,stdin);
+    report.report_name[strcspn(report.report_name, "\n")] = '\0';
+
+    printf("Enter Report value:");
+    scanf("%lld",&report.value);
+    printf("Enter Reports Cost:");
+    scanf("%f",&report.cost);
+    printf("Enter timings in format (e.g 21/Oct/2025 8:00 AM):");
+    getchar();
+    fgets(report.timing,50,stdin);
+    report.timing[strcspn(report.timing, "\n")] = '\0';
+
+    fprintf(fp,"\n%d|%s|%s|%lld|%f|%s",
+            report.report_id, report.patient_name, report.report_name, report.value, report.cost, report.timing);
+
+    fclose(fp);
+    printf("\nReport details has been successfully added\n");
+    printf("%d|%s|%s|%lld|%f|%s\n",
+            report.report_id, report.patient_name, report.report_name, report.value, report.cost, report.timing);
+
 }
+
+void editReports() {
+    struct Reports report;
+    int id, flag = 0, store;
+    printf("Enter Report ID whose details you wish to change?");
+    scanf("%d",&id);
+
+    FILE *fp = fopen("reports.txt","r");
+    FILE *fpw = fopen("temp1.txt","w");
+    if(fp == NULL || fpw == NULL) {
+        printf("Error in opening file,it does not exist\n");
+        return;
+    }
+
+    while (fscanf(fp,"%d|%99[^|]|%99[^|]|%lld|%f|%49[^\n]\n",
+                  &report.report_id, report.patient_name, report.report_name,
+                  &report.value, &report.cost, report.timing) == 6)
+    {
+        if (report.report_id == id) {
+            flag = 1;
+            printf("\nCurrent Detials:\n");
+            printf("Reports ID:%d\nName:%s\nReports Name:%s\nPhone:%lld\nReports  Cost:%f\nTimings:%s\n",
+                   report.report_id, report.patient_name, report.report_name, report.value, report.cost, report.timing);
+
+            printf("1.Change Patient name\n2.Change Reports name\n3.Change Reports Phone Number\n4.Change Reports cost amount\n5.Change Timings\nEnter your choice:");
+            scanf("%d",&store);
+
+            switch(store) {
+                case 1:
+                    printf("Enter NEW Patient Name:");
+                    getchar();
+                    fgets(report.patient_name,100,stdin);
+                    report.patient_name[strcspn(report.patient_name, "\n")] = '\0';
+                    break;
+                case 2:
+                    printf("Enter NEW Reports name:");
+                    getchar();
+                    fgets(report.report_name,300,stdin);
+                    report.report_name[strcspn(report.report_name, "\n")] = '\0';
+                    break;
+                case 3:
+                    printf("Enter new value number:");
+                    scanf("%lld",&report.value);
+                    break;
+                case 4:
+                    printf("Enter NEW Reports Cost:");
+                    scanf("%f",&report.cost);
+                    break;
+                case 5:
+                    printf("Enter NEW Timings in format (e.g 21/Oct/2025 8:00 AM):");
+                    getchar();
+                    fgets(report.timing,100,stdin);
+                    report.timing[strcspn(report.timing, "\n")] = '\0';
+                    break;
+                default:
+                    printf("Wrong Choice");
+            }
+
+            printf("\nUpdated record details:\n");
+            printf("%d|%s|%s|%lld|%f|%s\n",
+                report.report_id, report.patient_name, report.report_name, report.value, report.cost, report.timing);
+        }
+
+        fprintf(fpw,"\n%d|%s|%s|%lld|%f|%s",
+                report.report_id, report.patient_name, report.report_name, report.value, report.cost, report.timing);
+        
+    }
+
+    fclose(fp);
+    fclose(fpw);
+
+    if(!flag) {
+        printf("\nReports ID does not exist\n");
+        remove("temp1.txt");
+    } else {
+        remove("reports.txt");
+        rename("temp1.txt","reports.txt");
+ 
+    }
+}
+
+void deleteReports() {
+    int id;
+    printf("Enter Reports ID to delete:");
+    scanf("%d",&id);
+
+    FILE *fp = fopen("reports.txt","r");
+    FILE *temp = fopen("temp1.txt","w");
+    if (fp == NULL || temp == NULL) {
+        printf("Error opening file!\n");
+        return;
+    }
+
+    struct Reports report;
+    int found = 0;
+
+    while(fscanf(fp,"%d|%99[^|]|%99[^|]|%lld|%f|%49[^\n]\n",
+                 &report.report_id, report.patient_name, report.report_name, &report.value, &report.cost, report.timing) == 6)
+    {
+        if (report.report_id == id) {
+            found = 1;
+            continue;
+        }
+
+        fprintf(temp,"%d|%s|%s|%lld|%f|%s",
+                report.report_id, report.patient_name, report.report_name, report.value, report.cost, report.timing);
+    }
+
+    fclose(fp);
+    fclose(temp);
+
+    if(!found) {
+        printf("\nReports ID %d not found.\n",id);
+        remove("temp1.txt");
+    } else {
+        remove("reports.txt");
+        rename("temp1.txt", "reports.txt");
+        printf("\nReports ID %d deleted successfully.\n",id);
+    }
+}
+
+void searchReportsById() {
+    int found = 0;
+    FILE *fp = fopen("reports.txt","r");
+    if (fp == NULL) {
+        printf("Error opening file!\n");
+        return;
+    }
+
+    struct Reports report;
+    int id;
+    printf("Enter Reports ID:");
+    scanf("%d",&id);
+
+    while(fscanf(fp,"%d|%99[^|]|%99[^|]|%lld|%f|%49[^\n]\n",
+                 &report.report_id, report.patient_name, report.report_name,
+                 &report.value, &report.cost, report.timing) == 6)
+    {
+        if (report.report_id == id) {
+            found = 1;
+            printf("-----Reports ID Found-----");
+            printf("\n%d",report.report_id);
+            printf("\n%s",report.patient_name);
+            printf("\n%s",report.report_name);
+            printf("\n%lld",report.value);
+            printf("\n%f",report.cost);
+            printf("\n%s",report.timing);
+            break;
+        }
+    }
+    if (!found)
+        printf("Reports ID %d Record not found", id);
+
+    fclose(fp);
+}
+
+
+void displayReportsByName() {
+    struct Reports report;
+    char reportName[100];
+    int found = 0;
+
+    FILE *fp = fopen("reports.txt","r");
+    if (!fp) {
+        printf("Error opening Reports file!\n");
+        return;
+    }
+
+    getchar();
+    printf("Enter Reports name to search:");
+    fgets(reportName,100,stdin);
+    trim(reportName);
+
+    printf("\n---Reports with name :%s---\n",reportName);
+
+    while(fscanf(fp,"%d|%99[^|]|%99[^|]|%lld|%f|%49[^\n]\n",
+                 &report.report_id, report.patient_name, report.report_name,
+                 &report.value, &report.cost, report.timing) == 6)
+    {
+        trim(report.report_name);
+        if (strcasecmp(report.report_name,reportName)==0)
+        {
+            found = 1;
+            printf("Reports ID:%d|Patient NAME:%s|Reports Name:%s|Value:%lld|Reports Cost:%f|Timings:%s\n",
+                   report.report_id,report.patient_name,report.report_name,report.value,report.cost,report.timing);
+        }
+    }
+
+    fclose(fp);
+
+    if(!found)
+        printf("\nNo Reports found for name :%s\n",reportName);
+
+    printf("\n\n");
+}
+
+void viewAllReports() {
+    struct Reports report;
+    FILE *fp = fopen("reports.txt","r");
+
+    if (!fp) {
+        printf("Error opening Reports file!\n");
+        return;
+    }
+
+    while(fscanf(fp,"%d|%99[^|]|%99[^|]|%lld|%f|%49[^\n]\n",
+                 &report.report_id, report.patient_name, report.report_name,
+                 &report.value, &report.cost, report.timing) == 6)
+    {
+         printf("Reports ID:%d|Patient NAME:%s|Reports name:%s|Value:%lld|Reports Cost:%f|Timings:%s\n",
+                   report.report_id,report.patient_name,report.report_name,report.value,report.cost,report.timing);
+    }
+
+    fclose(fp);
+
+    printf("\n\n");
+}
+
+void reportsMenu() {
+    printf("\n--- Reports Menu ---\n");
+    printf("1. Add Reports\n2. Edit Reports\n3. Delete Reports\n4. Search Reports By Id\n5. Search Reports By Name\n6. View all Reports\n7. Back to main menu\n");
+
+    int ch;
+    printf("Enter you Choice: ");
+    scanf("%d",&ch);
+
+    switch(ch){
+        case 1: addReports(); break;
+        case 2: editReports(); break;
+        case 3: deleteReports(); break;
+        case 4: searchReportsById(); break;
+        case 5: displayReportsByName(); break;
+        case 6: viewAllReports(); break;
+        case 7: return;
+        default: printf("Invalid choice.\n");
+    }
+}
+
+/* =========== REPORTS FUNCTIONS - END =========== */
 
 int main() {
     int choice;
@@ -790,5 +1425,6 @@ int main() {
 
     return 0;
 }
+
 
 
