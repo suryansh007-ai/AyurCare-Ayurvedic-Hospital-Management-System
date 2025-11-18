@@ -1234,7 +1234,7 @@ void deleteReports() {
             continue;
         }
 
-        fprintf(temp,"%d|%s|%s|%lld|%f|%s",
+        fprintf(temp,"\n%d|%s|%s|%lld|%f|%s",
                 report.report_id, report.patient_name, report.report_name, report.value, report.cost, report.timing);
     }
 
@@ -1425,6 +1425,7 @@ int main() {
 
     return 0;
 }
+
 
 
 
