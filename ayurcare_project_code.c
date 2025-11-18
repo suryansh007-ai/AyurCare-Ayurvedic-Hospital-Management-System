@@ -743,7 +743,7 @@ void addTherapy() {
 void editTherapy() {
     struct Therapy therapy;
     int id, flag = 0, store;
-    printf("Enter Therapy/therapist ID whose details you wish to change?");
+    printf("Enter Therapy ID whose details you wish to change?");
     scanf("%d",&id);
 
     FILE *fp = fopen("panchkarma_schedule.txt","r");
@@ -763,7 +763,7 @@ void editTherapy() {
             printf("Therapy ID:%d\nName:%s\nTherapy Name:%s\nPhone:%lld\nTherapy  FEE:%f\nTimings:%s\n",
                    therapy.therapy_id, therapy.therapist_name, therapy.therapy_name, therapy.phone, therapy.fee, therapy.timing);
 
-            printf("1.Change Therapist name\n2.Change Therapy name\n3.Change /Therapist's Phone Number\n4.Change Therapy fee amount\n5.Change Timings\nEnter your choice:");
+            printf("1.Change Therapist name\n2.Change Therapy name\n3.Change Therapist's Phone Number\n4.Change Therapy fee amount\n5.Change Timings\nEnter your choice:");
             scanf("%d",&store);
 
             switch(store) {
@@ -842,7 +842,7 @@ void deleteTherapy() {
             continue;
         }
 
-        fprintf(temp,"%d|%s|%s|%lld|%f|%s\n",
+        fprintf(temp,"\n%d|%s|%s|%lld|%f|%s",
                 therapy.therapy_id, therapy.therapist_name, therapy.therapy_name, therapy.phone, therapy.fee, therapy.timing);
     }
 
@@ -1425,6 +1425,7 @@ int main() {
 
     return 0;
 }
+
 
 
 
