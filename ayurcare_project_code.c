@@ -25,6 +25,23 @@ struct doctor
     float fee;
     char timing[100];
 };
+int getLastDoctorID()
+{
+    FILE *fp=fopen("doctor.txt","r");
+    if (!fp)
+        return -1;
+    int id, lastID=-1;
+    char n[200],s[200],t[100];
+    long long phone;
+    float fee;
+    while (fscanf(fp,"%d|%199[^|]|%199[^|]|%lld|%f|%99[^\n]\n",&id,n,s,&phone,&fee,t)==6)
+    {
+        lastID=id;
+    }
+
+    fclose(fp);
+    return lastID;
+}
 void adddoctor()
 {
     FILE *fp=fopen("doctor.txt","a");
@@ -367,23 +384,7 @@ int getLastPatientID()
     fclose(fp);
     return lastID;
 }
-int getLastDoctorID()
-{
-    FILE *fp=fopen("doctor.txt","r");
-    if (!fp)
-        return -1;
-    int id, lastID=-1;
-    char n[200],s[200],t[100];
-    long long phone;
-    float fee;
-    while (fscanf(fp,"%d|%199[^|]|%199[^|]|%lld|%f|%99[^\n]\n",&id,n,s,&phone,&fee,t)==6)
-    {
-        lastID=id;
-    }
 
-    fclose(fp);
-    return lastID;
-}
 void addpatient()
 {
           long long int temp;
@@ -1427,13 +1428,14 @@ void reportsMenu() {
 
 int main() {
     int choice,p;
-    while(1){    
-        printf("Enter password: ");
+     printf("Enter password: ");
         scanf("%d",&p);
         if(p!=12345){
             printf("Incorrect Password");
-            break;
+            return 0;
         }
+    while(1){    
+        
         printf("\n=============================\n");
         printf("      AYURCARE SYSTEM\n");
         printf("=============================\n");
@@ -1482,6 +1484,7 @@ int main() {
     }
     return 0;
 }
+
 
 
 
