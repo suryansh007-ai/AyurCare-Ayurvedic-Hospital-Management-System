@@ -1099,10 +1099,10 @@ int medf=0;
         return;
     }
 
-    printf("--- Bill Summary ---\n");
+   printf("--- Bill Summary ---\n");
     printf("Doctor: %s (Fee: %.2f)\n", doc.doc_name, doc.fee);
-    printf("Medicine: %s | Unit price: %f | Qty: %d | Subtotal: %.2f\n",
-           m.name, m.price, q, m.price * q);
+    printf("Medicine: %s | Unit price: %f | Qty: %d | Subtotal: %.2f\n",m.name, m.price, q, m.price * q);
+    printf("Therapy(%s): %s (Fee: %.2f)\n", therp.therapist_name, therp.therapy_name,therp.fee);
     printf("-----------------------------\n");
     printf("Total payable: %.2f\n", total);
     fclose(f1);
@@ -1484,6 +1484,7 @@ int main() {
     }
     return 0;
 }
+
 
 
 
