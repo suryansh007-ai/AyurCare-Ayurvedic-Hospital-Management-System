@@ -20,7 +20,7 @@ struct doctor
 {
     int doc_id;
     char doc_name[100];
-    char spec[200];
+    char spec[100];
     long long int phone;
     float fee;
     char timing[100];
@@ -982,23 +982,34 @@ void therapyMenu() {
 /* =========== PANCKARMA THERAPY FUNCTIONS - END =========== */
 
 void billingMenu(){
+    struct Therapy therp;
     struct doctor doc;
-    med m;    
+    med m;
     printf("\n--- Billing Section ---\n");
     int q,id,con;
     float total=0.0;
-    char medname[50];
+    char medname[50],thname[50],dname[50];
 
     FILE* f1=fopen("doctor.txt","r");
     FILE* f2=fopen("medicine.txt","r");
+    FILE* f3=fopen("panchkarma_schedule.txt","r");
+
     if (f1 == NULL) {
         printf("Error: cannot open doctor file.\n");
         if (f2) fclose(f2);
+        if (f3) fclose(f3);
         return;
     }
     if (f2 == NULL) {
         printf("Error: cannot open medicine file.\n");
-        fclose(f1);
+        if (f1) fclose(f1);
+        if (f3) fclose(f3);
+        return;
+    }
+    if (f3 == NULL) {
+        printf("Error: cannot open panchkarma_schedule file.\n");
+        if (f1) fclose(f1);
+        if (f2) fclose(f2);
         return;
     }
     do{
@@ -1008,11 +1019,15 @@ void billingMenu(){
         scanf(" %[^\n]",medname);
         printf("Enter Quantity of Medicine: ");
         scanf("%d",&q);
+        printf("Enter Name of Therapy: ");
+        scanf(" %[^\n]",thname);
+        printf("Enter Name of Therapist: ");
+        scanf(" %[^\n]",dname);
         printf("If you want bill press '1',If you want to change Something press '0'\n");
         scanf("%d",&con);
     } while(con==0);
     int docf=0;
-    while(fscanf(f1,"%d|%99[^|]|%199[^|]|%lld|%f|%49[^\n]\n",&doc.doc_id,&doc.doc_name,&doc.spec,&doc.phone,&doc.fee,&doc.timing)==6){
+    while(fscanf(f1,"%d|%99[^|]|%99[^|]|%lld|%f|%49[^\n]\n",&doc.doc_id,doc.doc_name,doc.spec,&doc.phone,&doc.fee,doc.timing)==6){
         if (doc.doc_id==id){
             docf=1;
             total+=doc.fee;
@@ -1021,12 +1036,12 @@ void billingMenu(){
     }
     if(docf==0){
         printf("Doctor with ID %d Not Found\n",id);
-        fclose(f1);fclose(f2);
+        fclose(f1);fclose(f2);fclose(f3);
         return;
     }
 
 int medf=0;
-    while(fscanf(f2," %49[^|]|%d|%d|%f\n",&m.name,&m.expr,&m.stock,&m.price)==4){
+    while(fscanf(f2," %49[^|]|%d|%d|%f\n",m.name,&m.expr,&m.stock,&m.price)==4){
         if(strcmp(m.name,medname)==0){
             medf=1;
             if(q>m.stock){
@@ -1042,7 +1057,44 @@ int medf=0;
     }
     if(medf==0){
         printf("Medicine %s not Found\n",medname);
-        fclose(f1); fclose(f2);
+        fclose(f1); fclose(f2);fclose(f3);
+        return;
+    }
+    fclose(f2);
+    FILE *f2r = fopen("medicine.txt", "r");
+    FILE *tmp = fopen("temp_med.txt", "w");
+    med cur;
+    if (!f2r || !tmp){
+        printf("Error updating medicine file.\n");
+        if (f2r) fclose(f2r);
+        if (tmp) fclose(tmp);
+        fclose(f1); fclose(f2); fclose(f3);
+        return;
+        }
+    while(fscanf(f2r, " %49[^|]|%d|%d|%f\n", cur.name, &cur.expr, &cur.stock, &cur.price) == 4){
+        if (strcmp(cur.name, medname) == 0){                
+            fprintf(tmp, "%s|%d|%d|%f\n", cur.name, cur.expr, m.stock, cur.price);
+         } else {
+            fprintf(tmp, "%s|%d|%d|%f\n", cur.name, cur.expr, cur.stock, cur.price);
+        }
+        }
+        fclose(f2r);
+        fclose(tmp);
+        remove("medicine.txt");
+        rename("temp_med.txt", "medicine.txt");
+
+
+    int thf=0;
+    while(fscanf(f3,"%d|%99[^|]|%99[^|]|%lld|%f|%49[^\n]\n",&therp.therapy_id, therp.therapist_name, therp.therapy_name,&therp.phone, &therp.fee, therp.timing) == 6){
+        if (strcmp(therp.therapy_name,thname)==0 && strcmp(therp.therapist_name,dname)==0){
+            thf = 1;
+            total+= therp.fee;
+            break;
+        }
+    }
+    if(thf==0){
+        printf("%s Therapy not Found\n",thname);
+        fclose(f1); fclose(f2);fclose(f3);
         return;
     }
 
@@ -1053,7 +1105,8 @@ int medf=0;
     printf("-----------------------------\n");
     printf("Total payable: %.2f\n", total);
     fclose(f1);
-    fclose(f2);    
+    fclose(f2);
+    fclose(f3);
 }
 
 /* =========== REPORTS FUNCTIONS - START =========== */
@@ -1373,10 +1426,14 @@ void reportsMenu() {
 /* =========== REPORTS FUNCTIONS - END =========== */
 
 int main() {
-    int choice;
-
-    while(1)
-    {
+    int choice,p;
+    while(1){    
+        printf("Enter password: ");
+        scanf("%d",&p);
+        if(p!=12345){
+            printf("Incorrect Password");
+            break;
+        }
         printf("\n=============================\n");
         printf("      AYURCARE SYSTEM\n");
         printf("=============================\n");
@@ -1390,8 +1447,7 @@ int main() {
         printf("Enter your choice: ");
         scanf("%d",&choice);
 
-        switch(choice)
-        {
+        switch(choice){
             case 1:
                 patientMenu();
                 break;
@@ -1424,9 +1480,9 @@ int main() {
                 printf("Invalid choice. Try again.\n");
         }
     }
-
     return 0;
 }
+
 
 
 
