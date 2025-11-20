@@ -1207,10 +1207,10 @@ void editReports() {
         if (report.report_id == id) {
             flag = 1;
             printf("\nCurrent Detials:\n");
-            printf("Reports ID:%d\nName:%s\nReports Name:%s\nPhone:%lld\nReports  Cost:%f\nTimings:%s\n",
+            printf("Reports ID:%d\nName:%s\nReports Name:%s\nPhone:%lld\nReports Cost:%f\nTimings:%s\n",
                    report.report_id, report.patient_name, report.report_name, report.value, report.cost, report.timing);
 
-            printf("1.Change Patient name\n2.Change Reports name\n3.Change Reports Phone Number\n4.Change Reports cost amount\n5.Change Timings\nEnter your choice:");
+            printf("1.Change Patient name\n2.Change Report name\n3.Change Report value\n4.Change Reports cost amount\n5.Change Timings\nEnter your choice:");
             scanf("%d",&store);
 
             switch(store) {
@@ -1484,15 +1484,3 @@ int main() {
     }
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
