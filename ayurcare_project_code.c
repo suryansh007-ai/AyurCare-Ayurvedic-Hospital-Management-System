@@ -1016,7 +1016,7 @@ void billingMenu(){
     do{
         printf("Enter ID of Doctor: ");
         scanf(" %d",&id);
-        printf("Enter Name of Medicine(In Small Letters): ");
+        printf("Enter Name of Medicine: ");
         scanf(" %[^\n]",medname);
         printf("Enter Quantity of Medicine: ");
         scanf("%d",&q);
@@ -1484,6 +1484,7 @@ int main() {
     }
     return 0;
 }
+
 
 
 
