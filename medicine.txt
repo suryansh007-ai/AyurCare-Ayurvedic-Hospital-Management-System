@@ -1,0 +1,25 @@
+Ashwagandha|2027|50|150.00
+Brahmi|2026|40|120.00
+Shatavari|2028|60|180.00
+Triphala|2025|80|90.00
+Giloy|2027|70|110.00
+Neem Tablets|2026|65|95.00
+Amla Powder|2028|55|130.00
+Tulsi Drops|2025|45|160.00
+Punarnava|2027|35|140.00
+Arjuna Chaal|2029|50|170.00
+Ashwagandha|2027|40|150.00
+Brahmi|2026|30|120.00
+Shatavari|2028|55|180.00
+Triphala|2025|75|90.00
+Giloy|2027|65|110.00
+Neem Tablets|2026|60|95.00
+Amla Powder|2028|50|130.00
+Tulsi Drops|2025|40|160.00
+Punarnava|2027|30|140.00
+Arjuna Chaal|2029|45|170.00
+Ashwagandha|2027|35|150.00
+Brahmi|2026|28|120.00
+Shatavari|2028|45|180.00
+Triphala|2025|65|90.00
+Giloy|2027|55|110.00
