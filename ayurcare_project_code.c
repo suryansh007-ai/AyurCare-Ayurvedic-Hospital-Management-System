@@ -1440,7 +1440,7 @@ int main() {
         printf("      AYURCARE SYSTEM\n");
         printf("=============================\n");
         printf("1. Patient Management\n");
-        printf("2. Doctor and Therapist Management\n");
+        printf("2. Doctor Management\n");
         printf("3. Medicine Inventory\n");
         printf("4. Panchkarma Therapy Schedule\n");
         printf("5. Billing\n");
@@ -1484,6 +1484,7 @@ int main() {
     }
     return 0;
 }
+
 
 
 
