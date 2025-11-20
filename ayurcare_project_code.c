@@ -1227,7 +1227,7 @@ void editReports() {
                     report.report_name[strcspn(report.report_name, "\n")] = '\0';
                     break;
                 case 3:
-                    printf("Enter new value number:");
+                    printf("Enter NEW value number:");
                     scanf("%lld",&report.value);
                     break;
                 case 4:
